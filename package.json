@@ -1,0 +1,33 @@
+{
+  "name": "janadhikar",
+  "version": "1.0.0",
+  "description": "This project is an AI-powered civic engagement and transparency platform designed to bridge the gap between citizens and local governance. Citizens can report civic issues — potholes, garbage accumulation, water supply faults, and similar problems — through text, photos, or GPS-tagged locations, with Natural Language Processing automatically categorizing each complaint and routing it to the appropriate government department based on urgency and issue type. Every complaint moves through a transparent status pipeline — Filed, Assigned, In Progress, Resolved — giving citizens real-time visibility into how their concerns are being handled, which directly addresses the trust deficit created by opaque, delay-prone traditional grievance systems. Beyond complaint management, the platform features a public transparency dashboard that publishes government project details, including budgets, contractors, tenders, and itemized expenses, with an AI-driven anomaly detection layer that flags irregularities such as overspending, inflated bills, or duplicate receipts, adding a proactive layer of financial accountability rarely found in existing civic-tech solutions. By combining grievance redressal with financial transparency in a single system, the platform moves beyond typical single-purpose complaint apps or static information portals, offering citizens both a voice in reporting problems and a window into how public funds are actually being spent.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pranav4322/JanAdhikar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Pranav4322/JanAdhikar/issues"
+  },
+  "homepage": "https://github.com/Pranav4322/JanAdhikar#readme",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.1"
+  }
+}
