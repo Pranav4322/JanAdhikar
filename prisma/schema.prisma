@@ -13,4 +13,20 @@ model User {
   password  String
   role      String   @default("citizen")
   createdAt DateTime @default(now())
+  complaints Complaint[]
+}
+model Complaint {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  category     String   @default("Other")
+  urgency      String   @default("low")
+  status       String   @default("filed")
+  photoUrl     String?
+  latitude     Float?
+  longitude    Float?
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
