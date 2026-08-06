@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import prisma from '../services/prisma';
 import { AuthRequest } from '../middleware/auth.middleware';
+import { categorizeComplaint } from '../services/ai.service';
 
 export async function createComplaint(req: AuthRequest, res: Response) {
   try {
@@ -11,15 +12,15 @@ export async function createComplaint(req: AuthRequest, res: Response) {
     }
 
     const complaint = await prisma.complaint.create({
-      data: {
-        title,
-        description,
-        latitude,
-        longitude,
-        photoUrl,
-        userId: req.userId as string,
-      },
-    });
+  data: {
+    title,
+    description,
+    latitude,
+    longitude,
+    photoUrl,
+    userId: req.userId as string,
+  },
+});
 
     res.status(201).json({ message: 'Complaint filed successfully', complaint });
   } catch (error) {
