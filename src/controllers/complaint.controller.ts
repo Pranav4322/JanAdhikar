@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import prisma from '../services/prisma';
 import { AuthRequest } from '../middleware/auth.middleware';
-import { categorizeComplaint } from '../services/ai.service';
+import { analyzeComplaint } from '../services/gemini.service';
 
 export async function createComplaint(req: AuthRequest, res: Response) {
   try {
@@ -11,18 +11,40 @@ export async function createComplaint(req: AuthRequest, res: Response) {
       return res.status(400).json({ error: 'Title and description are required' });
     }
 
-    const complaint = await prisma.complaint.create({
-  data: {
-    title,
-    description,
-    latitude,
-    longitude,
-    photoUrl,
-    userId: req.userId as string,
-  },
-});
+    // 🤖 AI-powered analysis: auto-categorize, set urgency, generate summary
+    let category = 'Other';
+    let urgency = 'low';
+    let aiSummary = description;
 
-    res.status(201).json({ message: 'Complaint filed successfully', complaint });
+    try {
+      const analysis = await analyzeComplaint(title, description);
+      category = analysis.category;
+      urgency = analysis.urgency;
+      aiSummary = analysis.summary;
+      console.log(`[Gemini] Category: ${category}, Urgency: ${urgency}`);
+    } catch (aiError) {
+      console.error('[Gemini] AI analysis failed, using defaults:', aiError);
+      // Complaint still saved with default values — no hard failure
+    }
+
+    const complaint = await prisma.complaint.create({
+      data: {
+        title,
+        description,
+        category,
+        urgency,
+        latitude,
+        longitude,
+        photoUrl,
+        userId: req.userId as string,
+      },
+    });
+
+    res.status(201).json({
+      message: 'Complaint filed successfully',
+      complaint,
+      aiSummary,
+    });
   } catch (error) {
     console.error('Create complaint error:', error);
     res.status(500).json({ error: 'Something went wrong' });
