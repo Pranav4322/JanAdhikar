@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY as string;
+
 
 console.log('Key loaded:', GEMINI_API_KEY ? 'YES, length ' + GEMINI_API_KEY.length : 'NO - undefined');
 
