@@ -42,3 +42,30 @@ model ComplaintStatusLog {
   note        String?
   createdAt   DateTime @default(now())
 }
+model GovProject {
+  id                String    @id @default(uuid())
+  title             String
+  department        String
+  budgetAllocated   Float
+  contractorName    String
+  tenderReference   String?
+  startDate         DateTime?
+  expectedEndDate   DateTime?
+  status            String    @default("ongoing")
+  progressPercent   Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  expenses          Expense[]
+}
+
+model Expense {
+  id                String     @id @default(uuid())
+  projectId         String
+  project           GovProject @relation(fields: [projectId], references: [id])
+  amount            Float
+  receiptReference  String?
+  description       String
+  dateSubmitted     DateTime   @default(now())
+  flagged           Boolean    @default(false)
+  flagReason         String?
+}
