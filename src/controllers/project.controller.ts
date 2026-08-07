@@ -44,7 +44,7 @@ export async function getAllProjects(req: AuthRequest, res: Response) {
 
 export async function getProjectById(req: AuthRequest, res: Response) {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const project = await prisma.govProject.findUnique({
       where: { id },
       include: { expenses: true },
@@ -63,7 +63,7 @@ export async function getProjectById(req: AuthRequest, res: Response) {
 
 export async function addExpense(req: AuthRequest, res: Response) {
   try {
-    const { id: projectId } = req.params;
+    const projectId = req.params.id as string;
     const { amount, description, receiptReference } = req.body;
 
     if (!amount || !description) {

@@ -11,7 +11,7 @@ export async function createComplaint(req: AuthRequest, res: Response) {
       return res.status(400).json({ error: 'Title and description are required' });
     }
 
-    // 🤖 AI-powered analysis: auto-categorize, set urgency, generate summary
+    //  AI-powered analysis: auto-categorize, set urgency, generate summary
     let category = 'Other';
     let urgency = 'low';
     let aiSummary = description;
@@ -64,9 +64,10 @@ export async function getMyComplaints(req: AuthRequest, res: Response) {
     res.status(500).json({ error: 'Something went wrong' });
   }
 }
+
 export async function updateComplaintStatus(req: AuthRequest, res: Response) {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { status, note } = req.body;
 
     const validStatuses = ['filed', 'assigned', 'in_progress', 'resolved'];
