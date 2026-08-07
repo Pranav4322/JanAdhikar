@@ -24,3 +24,11 @@ export function authenticate(req: AuthRequest, res: Response, next: NextFunction
     return res.status(401).json({ error: 'Invalid or expired token' });
   }
 }
+export function requireRole(...allowedRoles: string[]) {
+  return (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.userRole || !allowedRoles.includes(req.userRole)) {
+      return res.status(403).json({ error: 'You do not have permission to perform this action' });
+    }
+    next();
+  };
+}

@@ -29,4 +29,16 @@ model Complaint {
   user         User     @relation(fields: [userId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  statusLogs ComplaintStatusLog[]
+}
+
+
+model ComplaintStatusLog {
+  id          String   @id @default(uuid())
+  complaintId String
+  complaint   Complaint @relation(fields: [complaintId], references: [id])
+  status      String
+  changedBy   String
+  note        String?
+  createdAt   DateTime @default(now())
 }

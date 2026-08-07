@@ -64,3 +64,33 @@ export async function getMyComplaints(req: AuthRequest, res: Response) {
     res.status(500).json({ error: 'Something went wrong' });
   }
 }
+export async function updateComplaintStatus(req: AuthRequest, res: Response) {
+  try {
+    const { id } = req.params;
+    const { status, note } = req.body;
+
+    const validStatuses = ['filed', 'assigned', 'in_progress', 'resolved'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ error: 'Invalid status value' });
+    }
+
+    const complaint = await prisma.complaint.update({
+      where: { id },
+      data: { status },
+    });
+
+    await prisma.complaintStatusLog.create({
+      data: {
+        complaintId: id,
+        status,
+        changedBy: req.userId as string,
+        note,
+      },
+    });
+
+    res.status(200).json({ message: 'Status updated successfully', complaint });
+  } catch (error) {
+    console.error('Update status error:', error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+}
