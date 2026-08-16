@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --color-jan-orange: #E8720C;
+  --color-jan-orange-light: #F5A855;
+  --color-jan-teal: #0D5C4F;
+  --color-jan-teal-dark: #0A4A40;
+  --color-jan-dark: #1A1613;
+  --color-jan-cream: #FDF6EC;
+}
