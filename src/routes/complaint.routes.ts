@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import { createComplaint, getMyComplaints, updateComplaintStatus } from '../controllers/complaint.controller';
-import { authenticate, requireRole } from '../middleware/auth.middleware';
 import { createComplaint, getMyComplaints, updateComplaintStatus, getAllComplaintsPublic } from '../controllers/complaint.controller';
+import { authenticate, requireRole } from '../middleware/auth.middleware';
 
 const router = Router();
 
