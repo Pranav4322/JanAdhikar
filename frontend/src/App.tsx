@@ -6,6 +6,7 @@ import ReportIssue from './pages/ReportIssue';
 import TrackComplaint from './pages/TrackComplaint';
 import Projects from './pages/Projects';
 import Analytics from './pages/Analytics';
+import About from './pages/About';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/track" element={<TrackComplaint />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
