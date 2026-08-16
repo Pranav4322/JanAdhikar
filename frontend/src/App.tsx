@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import Auth from './pages/Auth';
 import ReportIssue from './pages/ReportIssue';
 import TrackComplaint from './pages/TrackComplaint';
+import Projects from './pages/Projects';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/report" element={<ReportIssue />} />
           <Route path="/track" element={<TrackComplaint />} />
+          <Route path="/projects" element={<Projects />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
