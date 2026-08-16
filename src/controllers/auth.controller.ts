@@ -1,12 +1,14 @@
 import { hashPassword, comparePassword, generateAccessToken, generateRefreshToken } from '../services/auth.service';
 import { Request, Response } from 'express';
 import prisma from '../services/prisma';
+import { verifyVoterId } from '../services/voterVerification.service';
+
 export async function register(req: Request, res: Response) {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, voterId } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: 'Name, email, and password are required' });
+    if (!name || !email || !password || !voterId) {
+      return res.status(400).json({ error: 'Name, email, password, and voter ID are required' });
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -14,10 +16,20 @@ export async function register(req: Request, res: Response) {
       return res.status(409).json({ error: 'Email already registered' });
     }
 
+    const { verified, reason } = await verifyVoterId(voterId);
+    if (!verified) {
+      return res.status(400).json({ error: reason || 'Voter ID verification failed' });
+    }
+
+    const existingVoterId = await prisma.user.findUnique({ where: { voterId } });
+    if (existingVoterId) {
+      return res.status(409).json({ error: 'This Voter ID is already registered' });
+    }
+
     const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.create({
-      data: { name, email, password: hashedPassword },
+      data: { name, email, password: hashedPassword, voterId, isVoterVerified: verified },
     });
 
     const accessToken = generateAccessToken(user.id, user.role);
@@ -25,7 +37,7 @@ export async function register(req: Request, res: Response) {
 
     res.status(201).json({
       message: 'User registered successfully',
-      user: { id: user.id, name: user.name, email: user.email, role: user.role },
+      user: { id: user.id, name: user.name, email: user.email, role: user.role, isVoterVerified: user.isVoterVerified },
       accessToken,
       refreshToken,
     });
@@ -58,7 +70,7 @@ export async function login(req: Request, res: Response) {
 
     res.status(200).json({
       message: 'Login successful',
-      user: { id: user.id, name: user.name, email: user.email, role: user.role },
+      user: { id: user.id, name: user.name, email: user.email, role: user.role, isVoterVerified: user.isVoterVerified },
       accessToken,
       refreshToken,
     });
