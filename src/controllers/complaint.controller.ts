@@ -95,3 +95,22 @@ export async function updateComplaintStatus(req: AuthRequest, res: Response) {
     res.status(500).json({ error: 'Something went wrong' });
   }
 }
+export async function getAllComplaintsPublic(req: AuthRequest, res: Response) {
+  try {
+    const complaints = await prisma.complaint.findMany({
+      select: {
+        id: true,
+        category: true,
+        urgency: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.status(200).json({ complaints });
+  } catch (error) {
+    console.error('Get all complaints error:', error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+}
