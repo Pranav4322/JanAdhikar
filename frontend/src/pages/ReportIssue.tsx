@@ -180,11 +180,11 @@ export default function ReportIssue() {
                 ← Back
               </button>
               <button
-                disabled={!title || !description}
+                disabled={!title || !description || submitting}
                 onClick={handleSubmit}
                 className="flex-1 bg-jan-orange hover:bg-jan-orange-light disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
               >
-                Submit for AI Review →
+                {submitting ? 'Submitting...' : 'Submit for AI Review →'}
               </button>
             </div>
           </div>
