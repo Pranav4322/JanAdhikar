@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
@@ -33,8 +33,13 @@ export default function ReportIssue() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth');
+    }
+  }, [user, navigate]);
+
   if (!user) {
-    navigate('/auth');
     return null;
   }
 
